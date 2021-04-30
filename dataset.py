@@ -13,7 +13,7 @@ from skimage.transform import resize
 
 np.set_printoptions(threshold=sys.maxsize)
 
-def dataset(alb):
+def dataset_for_training(alb):
     data = []
     data = alb
     for t in range(len(alb)):
@@ -29,6 +29,8 @@ def dataset(alb):
     filename = "image_matrix.txt"
     with open(filename, 'w') as file_object:
         file_object.write(str(data[12]))
+
+    return data
 
 def image_preprocessor():
     
@@ -56,12 +58,21 @@ def image_preprocessor():
     #for z in range(len(alb)):
     #    axs[z].imshow(alb[z])
 
-    axs[0].imshow(alb[12])
+    axs[0].imshow(alb[2])
     #axs[1].imshow(alb[16])
-    dataset(alb)
+    data_for_training = dataset_for_training(alb)
+
+    desired_response = []
+    for d in range(len(alb)):
+        if d == 2:
+            desired_response.append(1)
+        else:
+            desired_response.append(-1)
     
     plt.tight_layout()
-    plt.show()
+    #plt.show()
+
+    return data_for_training, desired_response
 
 
 if __name__ == '__main__':
