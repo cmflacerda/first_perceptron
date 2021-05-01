@@ -32,9 +32,9 @@ def dataset_for_training(alb):
 
     return data
 
-def image_preprocessor():
-    
-    image = imread("/home/christian/Área de Trabalho/8_bit_alphabet.png", as_gray=True)
+def image_preprocessor(letter):
+    #letter += 1
+    image = imread("8_bit_alphabet.png", as_gray=True)
     fig, axs = plt.subplots(ncols=2, sharex=True, sharey=True) #, figsize=(8, 4)
     alb = []
     
@@ -64,7 +64,7 @@ def image_preprocessor():
 
     desired_response = []
     for d in range(len(alb)):
-        if d == 2:
+        if d == letter:
             desired_response.append(1)
         else:
             desired_response.append(-1)

@@ -4,21 +4,11 @@ import numpy as np
 def sig(x):
     return 2*(1/(1 + np.exp(-x))) - 1
 
-input_vector_of_matrices, d = data.image_preprocessor()
-input_vector_of_vectors = []
-w_initial = np.reshape(np.zeros(65), [65, 1])
-
 def truncate(n, decimals=0):
     multiplier = 10 ** decimals
     return int(n * multiplier) / multiplier
 
-
-for i in range(len(input_vector_of_matrices)):
-    input_vector_of_vectors.append(np.reshape(input_vector_of_matrices[i], [64, 1]))
-    input_vector_of_vectors[i] = np.insert(input_vector_of_vectors[i], 0, 1, axis=0)
-
-
-def w_evaluation():
+def w_evaluation(input_vector_of_vectors, w_initial, d):
     w_old = w_initial
     delta = 1
     count = 0
@@ -38,12 +28,20 @@ def w_evaluation():
             if delta < 0.001:
                 count += 1
                 #print(count)
-        
-
 
     print("fim")
-    print(y[(len(y) - 24):])
-    return w_old
+    #print(y[(len(y) - 24):])
+    return w_old, y[(len(y) - 24):]
+
+def initialization(letter):
+    input_vector_of_matrices, d = data.image_preprocessor(letter)
+    input_vector_of_vectors = []
+    w_initial = np.reshape(np.zeros(65), [65, 1])
+    for i in range(len(input_vector_of_matrices)):
+        input_vector_of_vectors.append(np.reshape(input_vector_of_matrices[i], [64, 1]))
+        input_vector_of_vectors[i] = np.insert(input_vector_of_vectors[i], 0, 1, axis=0)
+
+    return w_evaluation(input_vector_of_vectors, w_initial, d)
 
 if __name__ == '__main__':
-    w_evaluation()
+    initialization()
