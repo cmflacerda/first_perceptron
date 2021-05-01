@@ -16,7 +16,12 @@ print("")
 letter = int(input("Index: "))
 
 w_final, y_final = init(letter)
+
+# The next print will show the final weights evaluated
 print('\n' + "Final weights:")
 print(w_final.T)
+
+# The next print will show the outputs of the perceptron after the training process returning -0.99 for letters classified
+# as different and 0.99 for letters equal to the one chosen before.
 print('\n' + "Final outputs of the perceptron:")
 print(y_final)
