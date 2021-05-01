@@ -29,7 +29,7 @@ def w_evaluation(input_vector_of_vectors, w_initial, d):
                 count += 1
                 #print(count)
 
-    print("fim")
+    print('\n' + "End of training" + '\n')
     #print(y[(len(y) - 24):])
     return w_old, y[(len(y) - 24):]
 
