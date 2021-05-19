@@ -13,6 +13,11 @@ mytable.add_row(["Index", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"
 print(mytable)
 print("")
 
+""" 
+    The perceptron is implemented in two ways: using the difference between desired answer and the output of sigmoid function,
+    and using the batch perceptron algorithm. To use the first or the second, it's necessary to uncomment/comment the lines
+    70 and 71 of the perceptron.py file.
+"""
 letter = int(input("Index: "))
 
 w_final, y_final = init(letter)
