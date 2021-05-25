@@ -4,6 +4,10 @@ import numpy as np
 def sig(x):
     return 2*(1/(1 + np.exp(-x))) - 1
 
+def sig_for_LMS(x):
+    p = 2*(2*(1/(1 + np.exp(-x))) - 1)
+    return p
+
 def truncate(n, decimals=0):
     multiplier = 10 ** decimals
     return int(n * multiplier) / multiplier
@@ -59,6 +63,31 @@ def w_evaluation_steepest_descent(input_vector_of_vectors, w_initial, d):
     print('\n' + "End of training" + '\n')
     return w_old, y[(len(y) - 24):]
 
+def w_evaluation_using_LMS(input_vector_of_vectors, w_initial, d):
+    w_old = w_initial
+    learning_rate = 0.01
+    y = []
+    delta = 1
+    count = 0
+
+    while count != 24:
+        count = 0
+        for l in range(len(input_vector_of_vectors)):
+            y_response = sig_for_LMS(w_old.T @ input_vector_of_vectors[l])
+            error = d[l] - w_old.T @ input_vector_of_vectors[l]
+            w_new = w_old + input_vector_of_vectors[l] * learning_rate * error
+            w_old = w_new
+            if error < 0:
+                error *= -1
+            if error < 0.00001:
+                count += 1
+                # print(count)
+
+            y.append(truncate(y_response, 2))
+
+    print('\n' + "End of training" + '\n')
+    return w_old, y[(len(y) - 24):]
+
 def initialization(letter):
     input_vector_of_matrices, d = data.image_preprocessor(letter)
     input_vector_of_vectors = []
@@ -68,7 +97,8 @@ def initialization(letter):
         input_vector_of_vectors[i] = np.insert(input_vector_of_vectors[i], 0, 1, axis=0)
     
     # return w_evaluation(input_vector_of_vectors, w_initial, d)
-    return w_evaluation_steepest_descent(input_vector_of_vectors, w_initial, d)
+    # return w_evaluation_steepest_descent(input_vector_of_vectors, w_initial, d)
+    return w_evaluation_using_LMS(input_vector_of_vectors, w_initial, d)
 
 if __name__ == '__main__':
     initialization()
